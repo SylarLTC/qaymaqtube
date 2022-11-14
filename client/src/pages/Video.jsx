@@ -7,7 +7,6 @@ import AddTaskIcon from "@mui/icons-material/AddTask";
 import ThumbUpIcon from "@mui/icons-material/ThumbUp";
 import ThumbDownIcon from "@mui/icons-material/ThumbDown";
 import { Comments } from "../components/Comments";
-import { Card } from "../components/Card";
 import { useDispatch, useSelector } from "react-redux";
 import { useLocation } from "react-router-dom";
 import { useState } from "react";
@@ -15,8 +14,8 @@ import { useEffect } from "react";
 import axios from "axios";
 import { dislike, fetchSuccess, like } from "../redux/videoSlice";
 import { format } from "timeago.js";
-import { current } from "@reduxjs/toolkit";
 import { subscription } from "../redux/userSlice";
+import { Recommendation } from "../components/Recommendation";
 
 const Container = styled.div`
   display: flex;
@@ -27,11 +26,7 @@ const Content = styled.div`
   flex: 5;
 `;
 
-const VideoWrapper = styled.div`
-  width: 100%;
-  height: 500px;
-  background-color: grey;
-`;
+const VideoWrapper = styled.div``;
 
 const Title = styled.h1`
   font-size: 18px;
@@ -64,10 +59,6 @@ const Button = styled.div`
 const Hr = styled.hr`
   margin: 15px 0px;
   border: 0.5px solid ${({ theme }) => theme.textSoft};
-`;
-
-const Recommendation = styled.div`
-  flex: 2;
 `;
 
 const Channel = styled.div`
@@ -163,7 +154,7 @@ export const Video = () => {
     <Container>
       <Content>
         <VideoWrapper>
-          <VideoFrame src={currentVideo.videoUrl} />
+          <VideoFrame src={currentVideo.videoUrl} controls />
         </VideoWrapper>
         <Title>{currentVideo.title}</Title>
         <Details>
@@ -212,16 +203,9 @@ export const Video = () => {
           </Subscribe>
         </Channel>
         <Hr />
-        <Comments />
+        <Comments videoId={currentVideo._id} />
       </Content>
-      {/* <Recommendation>
-        <Card type="sm" />
-        <Card type="sm" />
-        <Card type="sm" />
-        <Card type="sm" />
-        <Card type="sm" />
-        <Card type="sm" />
-      </Recommendation> */}
+      <Recommendation tags={currentVideo.tags} />
     </Container>
   );
 };
